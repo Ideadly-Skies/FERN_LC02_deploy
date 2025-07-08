@@ -26,17 +26,22 @@ function Table() {
     // taken from here: https://stackoverflow.com/questions/8358084/regular-expression-to-reformat-a-us-phone-number-in-javascript
     // and modified!!!! 
     function formatPhoneNumber(phoneNumberString) {
-        var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
-        var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-        if (match) {
-            return  match[1] + '-' + match[2] + '-' + match[3];
+        let result = ""; 
+        
+        for (let i = 0; i < phoneNumberString.length; i++){
+            result += phoneNumberString[i];
+            
+            if (i == 2 || i == 5){
+                result += "-";
+            }
         }
-        return null;
+        
+        return result; 
     }
 
     return (
             <>
-                {console.log(contacts)}
+                {/* {console.log(contacts)} */}
                 <h1 className="text-3xl font-bold flex justify-center mb-15">Table</h1>
 
                 <div className="overflow-x-auto mx-50 mb-20 rounded-box border border-base-content/5 bg-base-100">
