@@ -1,12 +1,13 @@
 import './App.css'
+import HomePage from './components/HomePage'
+import Table from './components/Table'
 
 function App() {
 
   return (
     <>
-      <h1 class="text-3xl font-bold underline">
-        Hello world!
-      </h1> 
+      <HomePage/>
+      <Table/>
     </>
   )
 }
