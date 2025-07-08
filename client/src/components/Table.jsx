@@ -5,7 +5,7 @@ function Table() {
     const [contacts, setContacts] = useState([])
 
     async function fetchContacts() {
-        const url = "http://localhost:3000/contacts"
+        const url = "https://translucent-marmalade-danthus.glitch.me/contacts"
         try {
             const response = await fetch(url);
             if (!response.ok) {

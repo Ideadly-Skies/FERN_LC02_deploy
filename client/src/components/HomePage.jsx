@@ -2,7 +2,7 @@ import React from 'react'
 import Swal from 'sweetalert2'
 
 async function postContacts(contacts) {
-    const url = "http://localhost:3000/contacts"
+    const url = "https://translucent-marmalade-danthus.glitch.me/contacts"
     try {
         if (!contacts.firstName || !contacts.lastName || !contacts.phoneNumber){
             throw new Error(`Field Incomplete! please check your answer.`)
