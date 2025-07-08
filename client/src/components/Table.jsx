@@ -1,44 +1,69 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 
 function Table() {
-  return (
-        <>
-            <h1 className="text-3xl font-bold flex justify-center mb-15">Table</h1>
+    const [contacts, setContacts] = useState([])
 
-            <div className="overflow-x-auto mx-50 mb-20 rounded-box border border-base-content/5 bg-base-100">
-                <table className="table">
-                    {/* head */}
-                    <thead>
-                    <tr>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Phone number</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {/* row 1 */}
-                    <tr>
-                        <td>Cy Ganderton</td>
-                        <td>Quality Control Specialist</td>
-                        <td>Blue</td>
-                    </tr>
-                    {/* row 2 */}
-                    <tr>
-                        <td>Hart Hagerty</td>
-                        <td>Desktop Support Technician</td>
-                        <td>Purple</td>
-                    </tr>
-                    {/* row 3 */}
-                    <tr>
-                        <td>Brice Swyre</td>
-                        <td>Tax Accountant</td>
-                        <td>Red</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </>
-  )
+    async function fetchContacts() {
+        const url = "http://localhost:3000/contacts"
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+
+            const json = await response.json();
+            setContacts(json);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchContacts()
+    })
+
+    // taken from here: https://stackoverflow.com/questions/8358084/regular-expression-to-reformat-a-us-phone-number-in-javascript
+    // and modified!!!! 
+    function formatPhoneNumber(phoneNumberString) {
+        var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+        var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+            return  match[1] + '-' + match[2] + '-' + match[3];
+        }
+        return null;
+    }
+
+    return (
+            <>
+                {console.log(contacts)}
+                <h1 className="text-3xl font-bold flex justify-center mb-15">Table</h1>
+
+                <div className="overflow-x-auto mx-50 mb-20 rounded-box border border-base-content/5 bg-base-100">
+                    <table className="table">
+                        {/* head */}
+                        <thead>
+                        <tr>
+                            <th>First name</th>
+                            <th>Last name</th>
+                            <th>Phone number</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {contacts.map((value, id) => {
+                                return(
+                                    <tr key={id}>
+                                        <td>{value.firstName}</td>
+                                        <td>{value.lastName}</td>
+                                        <td>{formatPhoneNumber(value.phoneNumber)}</td> 
+                                    </tr>
+                                )
+                            })} 
+                        </tbody>
+                    </table>
+                </div>
+            </>
+    )
 }
 
 export default Table
